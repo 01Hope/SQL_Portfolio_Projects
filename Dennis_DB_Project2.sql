@@ -10,7 +10,7 @@ ORDER BY "Price" DESC
 LIMIT 5;
 
 -- All properties in alphabetical order of their city names
-SELECT "PropID", "PropertyCity"
+SELECT *
 FROM propertyinfo
 ORDER BY "PropertyCity";
 
@@ -26,28 +26,28 @@ FROM products
 WHERE "Price" = 300;
 
 -- Orders by properties that are not 14, 16, and 10
-SELECT "OrderID", "PropertyID"
+SELECT *
 FROM orders
 WHERE "PropertyID" NOT IN (14, 16, 10);
 
 -- Total amount all products will be worth if there were just 5 of it in the store
-SELECT SUM("Price")* 5 AS store_worth
+SELECT SUM(5 * "Price") AS store_worth
 FROM products;
 
 -- What are the most purchased and least purchased product?
 
 -- MOST PURCHASED PRODUCT:
-SELECT "ProductID", SUM("Quantity") AS sum_qty
+SELECT "ProductID", COUNT("OrderID") AS num_of_times_purchased
 FROM orders
 GROUP BY "ProductID"
-ORDER BY sum_qty DESC
+ORDER BY num_of_times_purchased DESC
 LIMIT 1;
 
 -- LEAST PURCHASED PRODUCT:
-SELECT "ProductID", SUM("Quantity") AS sum_qty
+SELECT "ProductID",COUNT("OrderID") AS num_of_times_purchased
 FROM orders
 GROUP BY "ProductID"
-ORDER BY sum_qty
+ORDER BY num_of_times_purchased
 LIMIT 1;
 
 -- What is the average price of products for each product category?
@@ -83,7 +83,7 @@ GROUP BY "ProductCategory";
 -- Denis wants to stop selling products below $50. In a new column identify if Denis will stop selling a product or not .
 SELECT "ProductName", "Price",
 CASE
-	WHEN "Price" < 50 THEN 'stop selling prodct'
+	WHEN "Price" < 50 THEN 'stop selling product'
 	WHEN "Price" > 50 THEN 'continue selling product'
 END AS product_status
 FROM products;
